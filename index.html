@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Austin Nixholm</title>
+    <meta name="description" content="Austin Nixholm — Software engineer building simulation software, motion platforms, and developer tools in Los Angeles.">
+    <meta property="og:title" content="Austin Nixholm">
+    <meta property="og:description" content="Software engineer building simulation software, motion platforms, and developer tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nixholm.dev">
+    <link rel="canonical" href="https://nixholm.dev">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #111113;
+            --surface: #19191c;
+            --border: #262629;
+            --text: #ddd9d0;
+            --text-2: #8e8a82;
+            --text-3: #555249;
+            --amber: #c8903a;
+            --amber-soft: rgba(200, 144, 58, 0.1);
+            --amber-dim: rgba(200, 144, 58, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #aurora {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 56px 28px 80px;
+        }
+
+        /* Top row */
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 72px;
+        }
+        .top-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--amber);
+            letter-spacing: 0.02em;
+        }
+        .top-links {
+            display: flex;
+            gap: 18px;
+        }
+        .top-links a {
+            font-size: 0.82rem;
+            color: var(--text-3);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .top-links a:hover { color: var(--text); }
+        .top-links a svg {
+            width: 17px;
+            height: 17px;
+            fill: currentColor;
+            vertical-align: middle;
+        }
+
+        /* Hero */
+        .hero {
+            margin-bottom: 80px;
+        }
+        .hero h1 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 2.6rem;
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.025em;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+        .hero h1 .amber { color: var(--amber); }
+        .hero p {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: var(--text-2);
+            max-width: 540px;
+            font-weight: 300;
+        }
+        .hero p a {
+            color: var(--amber);
+            text-decoration: none;
+            border-bottom: 1px solid var(--amber-dim);
+            transition: border-color 0.2s;
+        }
+        .hero p a:hover { border-color: var(--amber); }
+
+        /* Sections */
+        .section {
+            margin-bottom: 64px;
+        }
+        .section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 20px;
+        }
+
+        /* Projects */
+        .project {
+            display: block;
+            padding: 20px 22px;
+            margin-bottom: 8px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.25s ease;
+        }
+        .project:hover {
+            background: var(--surface);
+            border-color: var(--border);
+        }
+        .project-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+        .project-name {
+            font-weight: 600;
+            font-size: 0.98rem;
+            color: var(--text);
+        }
+        .project-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-3);
+            letter-spacing: 0.02em;
+        }
+        .project-desc {
+            font-size: 0.86rem;
+            color: var(--text-2);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        .project-stat {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--amber);
+            margin-top: 6px;
+        }
+
+        /* Experience */
+        .exp {
+            display: flex;
+            gap: 28px;
+            padding: 18px 0;
+        }
+        .exp + .exp {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+            margin-top: 8px;
+        }
+        .exp-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem;
+            color: var(--text-3);
+            min-width: 110px;
+            padding-top: 3px;
+            flex-shrink: 0;
+        }
+        .exp-content { flex: 1; }
+        .exp-role {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1px;
+        }
+        .exp-company {
+            font-size: 0.86rem;
+            color: var(--amber);
+            margin-bottom: 8px;
+        }
+        .exp-desc {
+            font-size: 0.84rem;
+            color: var(--text-2);
+            line-height: 1.65;
+            font-weight: 300;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-top: 28px;
+            margin-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .footer-note {
+            font-size: 0.74rem;
+            color: var(--text-3);
+        }
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+        .footer-links a {
+            font-size: 0.74rem;
+            color: var(--text-3);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--amber); }
+
+        @media (max-width: 540px) {
+            .page { padding: 36px 18px 60px; }
+            .hero h1 { font-size: 1.9rem; }
+            .top { margin-bottom: 52px; }
+            .exp { flex-direction: column; gap: 4px; }
+            .exp-date { min-width: unset; }
+            .project-top { flex-direction: column; gap: 2px; }
+            .footer { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="aurora"></canvas>
+<div class="page">
+
+    <div class="top">
+        <span class="top-name">nixholm.dev</span>
+        <div class="top-links">
+            <a href="https://github.com/austinnixholm" target="_blank" rel="noopener" title="GitHub">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+            <a href="https://linkedin.com/in/austinnixholm" target="_blank" rel="noopener" title="LinkedIn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>Software engineer<br>who builds things<br>that <span class="amber">move</span>.</h1>
+        <p>I'm a Senior Software Engineer at <a href="https://amawaterways.com" target="_blank" rel="noopener">AmaWaterways</a> and the co-founder of <a href="https://massdeck.com" target="_blank" rel="noopener">Massdeck</a>, a motion simulation company. 6+ years across flight simulator systems, embedded controls, real-time rendering, and full-stack web development.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Projects</div>
+
+        <a class="project" href="https://massdeck.com" target="_blank" rel="noopener">
+            <div class="project-top">
+                <span class="project-name">Massdeck</span>
+                <span class="project-label">Founder</span>
+            </div>
+            <p class="project-desc">Motion simulation platforms for flight, racing, and immersive experiences. Designing and engineering compact multi-axis motion bases for home and commercial use.</p>
+        </a>
+
+        <a class="project" href="https://gaugedeck.com" target="_blank" rel="noopener">
+            <div class="project-top">
+                <span class="project-name">Gaugedeck</span>
+                <span class="project-label">Massdeck product</span>
+            </div>
+            <p class="project-desc">Visual gauge editor and real-time rendering engine for flight, racing, and any simulator.</p>
+        </a>
+
+        <a class="project" href="https://github.com/austinnixholm/ThreeFingerDrag" target="_blank" rel="noopener">
+            <div class="project-top">
+                <span class="project-name">ThreeFingerDrag</span>
+                <span class="project-label">Open source</span>
+            </div>
+            <p class="project-desc">Windows precision touchpad utility that enables macOS-style three-finger window dragging.</p>
+            <p class="project-stat">3,000+ downloads  ·  70+ GitHub stars</p>
+        </a>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Experience</div>
+
+        <div class="exp">
+            <span class="exp-date">2026 — Present</span>
+            <div class="exp-content">
+                <div class="exp-role">Senior Software Engineer</div>
+                <div class="exp-company">AmaWaterways</div>
+                <p class="exp-desc">Full-stack development, internal tooling, and infrastructure automation for enterprise travel and booking systems. C#/.NET, GraphQL, Bicep, Azure, SQL Server, CosmosDB.</p>
+            </div>
+        </div>
+
+        <div class="exp">
+            <span class="exp-date">2019 — 2026</span>
+            <div class="exp-content">
+                <div class="exp-role">Founding Engineer &amp; Technical Lead</div>
+                <div class="exp-company">Sim Logic, Inc.</div>
+                <p class="exp-desc">First engineering hire, responsible for all proprietary software. Built the simulator platform from first commit to FAA certification and grew the team from one to six. Owned everything from real-time graphics and embedded systems to motion control and deployment tooling. Delivered production systems to commercial training facilities nationwide.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <span class="footer-note">&copy; 2026 Austin Nixholm</span>
+        <div class="footer-links">
+            <a href="https://github.com/austinnixholm" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://linkedin.com/in/austinnixholm" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://massdeck.com" target="_blank" rel="noopener">Massdeck</a>
+        </div>
+    </div>
+
+</div>
+<script>
+(function() {
+    const canvas = document.getElementById('aurora');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    
+    // Cursor tracking with heavy smoothing
+    let mouseX = 0.5, mouseY = 0.5;
+    let smoothX = 0.5, smoothY = 0.5;
+    const ease = 0.002; // very gradual, ~8-10 second follow
+
+    document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX / w;
+        mouseY = e.clientY / h;
+    });
+
+    function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const ribbons = [
+        { r: 140, g: 80,  b: 170, alpha: 0.025, y: 0.20, spread: 100, speed: 0.30, offset: 0,   pull: 0.7 },
+        { r: 180, g: 130, b: 58,  alpha: 0.02,  y: 0.35, spread: 110, speed: 0.22, offset: 1.8,  pull: 0.55 },
+        { r: 100, g: 60,  b: 160, alpha: 0.022, y: 0.50, spread: 95,  speed: 0.35, offset: 3.5,  pull: 0.75 },
+        { r: 60,  g: 70,  b: 150, alpha: 0.02,  y: 0.15, spread: 105, speed: 0.18, offset: 1.0,  pull: 0.5 },
+        { r: 170, g: 100, b: 180, alpha: 0.02,  y: 0.65, spread: 90,  speed: 0.28, offset: 5.0,  pull: 0.65 },
+        { r: 120, g: 70,  b: 140, alpha: 0.018, y: 0.42, spread: 120, speed: 0.15, offset: 2.5,  pull: 0.5 },
+        { r: 80,  g: 60,  b: 130, alpha: 0.02,  y: 0.28, spread: 130, speed: 0.25, offset: 4.2,  pull: 0.6 },
+    ];
+
+    // Generate static star positions once
+    const stars = [];
+    for (let i = 0; i < 80; i++) {
+        stars.push({
+            x: Math.random(),
+            y: Math.random(),
+            size: Math.random() * 1.2 + 0.3,
+            alpha: Math.random() * 0.25 + 0.05,
+            depth: Math.random() * 0.6 + 0.2, // parallax depth
+        });
+    }
+
+    function drawStars() {
+        stars.forEach(star => {
+            // Subtle parallax shift based on cursor
+            const px = star.x * w + (smoothX - 0.5) * star.depth * -20;
+            const py = star.y * h + (smoothY - 0.5) * star.depth * -20;
+            
+            ctx.beginPath();
+            ctx.arc(px, py, star.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(220, 215, 200, ${star.alpha})`;
+            ctx.fill();
+        });
+    }
+
+    let time = 0;
+
+    function getY(ribbon, nx, t) {
+        const base = ribbon.y * h;
+        const wave = 
+            Math.sin(nx * 4.0 + t + ribbon.offset) * 25 +
+            Math.sin(nx * 2.2 + t * 0.7 + ribbon.offset * 0.5) * 35 +
+            Math.cos(nx * 1.3 + t * 0.5 + ribbon.offset) * 20;
+        
+        // Pull toward cursor - stronger effect
+        const distFromCursor = Math.max(0, 1.0 - Math.abs(nx - smoothX) * 0.7);
+        const cursorPull = (smoothY * h - base) * ribbon.pull * distFromCursor;
+        
+        return base + wave + cursorPull;
+    }
+
+    function drawRibbon(ribbon) {
+        const segs = 24;
+        
+        // Build top and bottom edge points with extra spread for softness
+        const top = [], bot = [];
+        const softSpread = ribbon.spread * 3.5 * (1 + 0.3 * Math.sin(time * 0.4 + ribbon.offset * 1.7) + 0.15 * Math.sin(time * 0.17 + ribbon.offset));
+        for (let i = 0; i <= segs; i++) {
+            const nx = i / segs;
+            const x = nx * w;
+            const cy = getY(ribbon, nx, time);
+            top.push({ x, y: cy - softSpread });
+            bot.push({ x, y: cy + softSpread });
+        }
+
+        // Create gradient centered on smoothed cursor
+        const midY = ribbon.y * h + (smoothY * h - ribbon.y * h) * ribbon.pull * 0.5;
+        const grad = ctx.createRadialGradient(
+            smoothX * w, midY, 10,
+            smoothX * w, midY, w * 0.9
+        );
+        grad.addColorStop(0, `rgba(${ribbon.r},${ribbon.g},${ribbon.b},${ribbon.alpha * 2})`);
+        grad.addColorStop(0.2, `rgba(${ribbon.r},${ribbon.g},${ribbon.b},${ribbon.alpha * 1.5})`);
+        grad.addColorStop(0.5, `rgba(${ribbon.r},${ribbon.g},${ribbon.b},${ribbon.alpha * 0.8})`);
+        grad.addColorStop(0.8, `rgba(${ribbon.r},${ribbon.g},${ribbon.b},${ribbon.alpha * 0.3})`);
+        grad.addColorStop(1, `rgba(${ribbon.r},${ribbon.g},${ribbon.b},0)`);
+
+        ctx.beginPath();
+        ctx.moveTo(top[0].x, top[0].y);
+
+        for (let i = 0; i < top.length - 1; i++) {
+            const curr = top[i], next = top[i + 1];
+            const cpx = (curr.x + next.x) / 2;
+            ctx.quadraticCurveTo(curr.x, curr.y, cpx, (curr.y + next.y) / 2);
+        }
+        ctx.lineTo(top[top.length - 1].x, top[top.length - 1].y);
+
+        ctx.lineTo(bot[bot.length - 1].x, bot[bot.length - 1].y);
+
+        for (let i = bot.length - 1; i > 0; i--) {
+            const curr = bot[i], prev = bot[i - 1];
+            const cpx = (curr.x + prev.x) / 2;
+            ctx.quadraticCurveTo(curr.x, curr.y, cpx, (curr.y + prev.y) / 2);
+        }
+        ctx.lineTo(bot[0].x, bot[0].y);
+        ctx.closePath();
+
+        ctx.fillStyle = grad;
+        ctx.fill();
+    }
+
+    function render() {
+        time += 0.006;
+        
+        // Smooth cursor follow
+        smoothX += (mouseX - smoothX) * ease;
+        smoothY += (mouseY - smoothY) * ease;
+
+        ctx.clearRect(0, 0, w, h);
+
+        drawStars();
+        ribbons.forEach(drawRibbon);
+
+        requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
+})();
+</script>
+</html>
